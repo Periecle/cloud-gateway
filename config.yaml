@@ -1,0 +1,13 @@
+routes:
+  - id: "My Little Pony #2"
+    destination: "http://127.0.0.1:4000/example"
+    predicates:
+      - type: Path
+        path: "/example"
+      - type: RemoteAddr
+        addrs:
+          - 127.0.0.1
+    filters:
+      - type: AddRequestHeader
+        name: "X-Request-Red"
+        value: "blue"

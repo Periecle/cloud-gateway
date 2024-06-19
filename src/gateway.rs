@@ -1,13 +1,12 @@
-mod gateway {
+pub mod predicates;
+pub mod filters;
+pub mod route;
+pub mod config;
 
-    pub use crate::predicates::Predicate;
-    pub use crate::request::Request;
-    pub use crate::route::Route;
+use predicates::Predicate;
+use hyper::Request;
+use route::Route;
 
-    pub fn find_matching_route<'a, P: Predicate>(
-        routes: &'a [Route<P>],
-        request: &Request,
-    ) -> Option<&'a Route<P>> {
-        routes.iter().find(|route| route.matches(request))
-    }
+pub fn find_matching_route<'a, T>(routes: &'a[Route], request: &Request<T>) -> Option<&'a Route> {
+    routes.iter().find(|route| route.matches(request))
 }
