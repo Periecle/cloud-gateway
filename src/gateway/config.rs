@@ -1,8 +1,4 @@
-use std::error::Error;
-use std::fs::File;
-
 use serde::{Deserialize, Serialize};
-use serde_yaml::from_reader;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Config {
@@ -34,14 +30,6 @@ pub enum PredicateConfig {
 #[serde(tag = "type")]
 pub enum FilterConfig {
     AddRequestHeader { name: String, value: String },
+    AddRequestParameter { name: String, value: String }
     // Add other filters here...
-}
-
-
-impl Config {
-    pub fn from_file(file_path: &str) -> Result<Self, Box<dyn Error + Send + Sync>> {
-        let config_file = File::open(file_path)?;
-        let config: Config = from_reader(config_file)?;
-        Ok(config)
-    }
 }

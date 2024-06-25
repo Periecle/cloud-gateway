@@ -1,0 +1,39 @@
+networks:
+  spring-net:
+    driver: bridge
+
+services:
+  eureka:
+    image: steeltoeoss/eureka-server:4.1.1
+    container_name: eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - spring-net
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+      - EUREKA_SERVER_ENABLESELFREGISTRATION=false
+
+  config-server:
+    image: steeltoeoss/config-server:4.1.1
+    ports:
+      - "8888"
+    environment:
+     - SPRING_PROFILES_ACTIVE=native
+     - SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCHLOCATIONS=file:///config
+    volumes:
+      - ./config-repo:/config
+
+  gateway:
+    image: cloud-gateway:0.1.0
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-net
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+    depends_on:
+      - eureka
+      - config-server

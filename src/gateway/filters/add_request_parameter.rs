@@ -1,5 +1,7 @@
+use std::str::FromStr;
 use async_trait::async_trait;
-use http::uri::Uri;
+use http::Uri;
+use http::uri::PathAndQuery;
 use hyper::{body::Incoming, Request};
 
 use super::Filterable;
@@ -24,15 +26,14 @@ impl Filterable for AddRequestParameter {
         let mut query_pairs = form_urlencoded::Serializer::new(String::new());
 
         if let Some(query) = req.uri().query() {
-            query_pairs.extend_pairs(query.split('&').map(|s| {
-                let mut split = s.splitn(2, '=');
-                (split.next().unwrap_or_default(), split.next().unwrap_or_default())
-            }));
+            query_pairs.extend_pairs(form_urlencoded::parse(query.as_bytes()));
         }
 
         query_pairs.append_pair(&self.name, &self.value);
-        let query = query_pairs.finish();
-        uri_parts.path_and_query = Some(http::uri::PathAndQuery::from_static(query.as_str()));
+        let new_query = query_pairs.finish();
+        let path = uri_parts.path_and_query.as_ref().map_or("/", |pq| pq.path());
+        uri_parts.path_and_query = Some(PathAndQuery::from_str(&format!("{}?{}", path, new_query)).unwrap());
+
         let new_uri = Uri::from_parts(uri_parts).unwrap();
         *req.uri_mut() = new_uri;
 
