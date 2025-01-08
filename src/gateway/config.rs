@@ -30,6 +30,6 @@ pub enum PredicateConfig {
 #[serde(tag = "type")]
 pub enum FilterConfig {
     AddRequestHeader { name: String, value: String },
-    AddRequestParameter { name: String, value: String }
-    // Add other filters here...
+    AddRequestHeadersIfNotPresent { headers: Vec<(String, String)> },
+    AddRequestParameter { name: String, value: String },
 }

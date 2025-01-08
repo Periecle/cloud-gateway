@@ -1,9 +1,8 @@
 use std::error::Error as StdError;
 use std::fmt;
-use std::fmt::write;
 
-use hyper::Error as HyperError;
 use hyper::http::uri::InvalidUri;
+use hyper::Error as HyperError;
 use tokio::io::Error as IoError;
 
 #[derive(Debug)]
@@ -13,7 +12,7 @@ pub enum GatewayError {
     HyperError(HyperError),
     IoError(IoError),
     NoRouteMatched,
-    ConnectionFailed(Box<dyn StdError + Send + Sync>)
+    ConnectionFailed(Box<dyn StdError + Send + Sync>),
 }
 
 impl fmt::Display for GatewayError {
@@ -24,7 +23,7 @@ impl fmt::Display for GatewayError {
             GatewayError::HyperError(err) => write!(f, "Hyper error: {}", err),
             GatewayError::IoError(err) => write!(f, "I/O error: {}", err),
             GatewayError::NoRouteMatched => write!(f, "No route matched"),
-            GatewayError::ConnectionFailed(err) => write!(f, "Connection error: {}", err)
+            GatewayError::ConnectionFailed(err) => write!(f, "Connection error: {}", err),
         }
     }
 }

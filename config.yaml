@@ -1,6 +1,6 @@
 routes:
   - id: "My Little Pony #2"
-    destination: "http://0.0.0.0:4000/example"
+    destination: "http://0.0.0.0:8080/example"
     predicates:
       - type: Path
         path: "/example"
