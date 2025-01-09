@@ -126,5 +126,5 @@ async fn forward_request(
 
     // The remote server's response body is usually `Incoming` with `Data=Bytes` and `Error=hyper::Error`.
     // Just pin it, turning it into `Box<dyn Body<...> + Send>`.
-    Ok(response.map(|b| box_pinned_body(b)))
+    Ok(response.map(box_pinned_body))
 }

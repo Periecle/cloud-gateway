@@ -1,6 +1,8 @@
 use async_trait::async_trait;
 use serde_yaml::from_str;
+use std::collections::HashSet;
 use std::error::Error;
+use std::iter::FromIterator;
 use tokio::fs;
 
 use crate::gateway::config::{Config, FilterConfig, PredicateConfig};
@@ -57,10 +59,9 @@ impl ConfigLoader for YamlConfigLoader {
                         }
                         PredicateConfig::XForwardedRemoteAddr { addrs } => {
                             Predicate::XForwardedRemoteAddr(XForwardedRemoteAddrPredicate {
-                                addrs: addrs
-                                    .into_iter()
-                                    .map(|addr| addr.parse().unwrap())
-                                    .collect(),
+                                addrs: HashSet::from_iter(
+                                    addrs.into_iter().map(|addr| addr.parse().unwrap()),
+                                ),
                             })
                         }
                     })

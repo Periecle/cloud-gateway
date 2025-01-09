@@ -12,6 +12,7 @@ pub enum GatewayError {
     HyperError(HyperError),
     IoError(IoError),
     NoRouteMatched,
+    BadGateway,
     ConnectionFailed(Box<dyn StdError + Send + Sync>),
 }
 
@@ -24,6 +25,7 @@ impl fmt::Display for GatewayError {
             GatewayError::IoError(err) => write!(f, "I/O error: {}", err),
             GatewayError::NoRouteMatched => write!(f, "No route matched"),
             GatewayError::ConnectionFailed(err) => write!(f, "Connection error: {}", err),
+            GatewayError::BadGateway => write!(f, "Bad Gateway"),
         }
     }
 }

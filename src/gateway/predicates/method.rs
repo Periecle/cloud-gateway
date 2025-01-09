@@ -7,8 +7,8 @@ pub struct MethodPredicate {
     pub method: String,
 }
 
-impl <T> Evaluable<T> for MethodPredicate {
+impl<T> Evaluable<T> for MethodPredicate {
     fn evaluate(&self, request: &Request<T>) -> bool {
-        &request.method().as_str() == &self.method
+        request.method().as_str() == self.method
     }
 }

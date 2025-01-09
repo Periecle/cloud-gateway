@@ -6,8 +6,8 @@ pub struct PathPredicate {
     pub path: String,
 }
 
-impl <T> Evaluable<T> for PathPredicate {
+impl<T> Evaluable<T> for PathPredicate {
     fn evaluate(&self, request: &Request<T>) -> bool {
-        &request.uri().path() == &self.path
+        request.uri().path() == self.path
     }
 }
