@@ -69,6 +69,7 @@ impl ConfigLoader for YamlConfigLoader {
 
                 let filters = route_config
                     .filters
+                    .unwrap_or_default()
                     .into_iter()
                     .map(|filter_config| match filter_config {
                         FilterConfig::AddRequestHeader { name, value } => {
