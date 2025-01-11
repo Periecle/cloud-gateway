@@ -24,16 +24,16 @@ services:
     volumes:
       - ./config-repo:/config
 
-  gateway:
-    image: cloud-gateway:0.1.0
-    container_name: gateway
-    ports:
-      - "8080:8080"
-    networks:
-      - spring-net
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
-      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
-    depends_on:
-      - eureka
-      - config-server
+  # gateway:
+  #   image: cloud-gateway:0.1.0
+  #   container_name: gateway
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - spring-net
+  #   environment:
+  #     - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+  #     - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+  #   depends_on:
+  #     - eureka
+  #     - config-server

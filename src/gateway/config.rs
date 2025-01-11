@@ -10,7 +10,7 @@ pub struct RouteConfig {
     pub id: String,
     pub destination: String,
     pub predicates: Vec<PredicateConfig>,
-    pub filters: Vec<FilterConfig>,
+    pub filters: Option<Vec<FilterConfig>>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
